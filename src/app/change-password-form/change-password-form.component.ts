@@ -18,6 +18,7 @@ export class ChangePasswordFormComponent {
       confirmPassword: _fb.control('', Validators.required)
     //}, {validators: FormValidators.password.bind(this, this.oldPassword, this.newPassword)}) 
     }, {validators: this.password.bind(this)})
+    //}, this.passwordMatchValidator)
     //});
   };
 
@@ -35,14 +36,15 @@ export class ChangePasswordFormComponent {
     }
   }
 
+
   get confirmPassword() {
     if (this.form && this.form.get('confirmPassword')) {
       return this.form.get('confirmPassword');
     }
   }
 
-  passwordMatchValidator(g: FormGroup) {
-    return g.get('newPassword').value === g.get('confirmPassword').value
+  passwordMatchValidator(formGroup: FormGroup) {
+    return formGroup.get('newPassword').value === formGroup.get('confirmPassword').value
        ? null : {'mismatch': true};
   }
 
