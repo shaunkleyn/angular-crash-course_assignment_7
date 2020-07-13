@@ -1,13 +1,6 @@
 import { AbstractControl, ValidationErrors } from "@angular/forms";
 
 export class PasswordValidators {
-  static passwordsMatch(control: AbstractControl, value: string): ValidationErrors | null {
-    console.log(control.value);
-    if((control.value as string) != value)
-      return {passwordsMatch: true};
-    null;
-  }
-
   static checkOldPassword(control: AbstractControl): Promise<ValidationErrors | null> {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
@@ -16,6 +9,5 @@ export class PasswordValidators {
         else resolve(null);
       }, 200);
     })
-    
   }
 }
