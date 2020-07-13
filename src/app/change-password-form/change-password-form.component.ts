@@ -15,10 +15,10 @@ export class ChangePasswordFormComponent {
     this.form = _fb.group ({
       oldPassword: _fb.control('', Validators.required, PasswordValidators.checkOldPassword),
       newPassword: _fb.control('', Validators.required),
-      confirmPassword: _fb.control('', [Validators.required, Validators.pattern(this.newPassword)])
+      confirmPassword: _fb.control('', Validators.required)
     //}, {validators: FormValidators.password.bind(this, this.oldPassword, this.newPassword)}) 
-    //}, this.passwordMatchValidator)
-    });
+    }, {validators: this.password.bind(this)})
+    //});
   };
 
   get oldPassword() {
@@ -46,11 +46,26 @@ export class ChangePasswordFormComponent {
        ? null : {'mismatch': true};
   }
 
-  checkIfPasswordMatches(el: HTMLInputElement) {
-    if (this.newPassword.value !== this.confirmPassword.value) {
+  checkIfPasswordMatches() {
+    if (this.newPassword.value.length > 0 && this.confirmPassword.value.length > 0 && 
+        this.newPassword.value !== this.confirmPassword.value) {
       this.confirmPassword.setErrors({'noMatch' : true});
       
     }
   }
+
+  password(formGroup: FormGroup) {
+    const { value: password } = formGroup.get('newPassword');
+    const { value: confirmPassword } = formGroup.get('confirmPassword');
+    console.log('formGroup.get(newPassword)' +formGroup.get('newPassword'))
+    console.log('formGroup.get(confirmPassword)' +formGroup.get('confirmPassword'))
+    console.log('password: ' + password);
+    console.log('confirmPassword :' + confirmPassword)
+    if (password && confirmPassword) {
+      return password === confirmPassword ? null : { passwordNotMatch: true };
+    }
+    return null;
+  }
+  
   
 }
