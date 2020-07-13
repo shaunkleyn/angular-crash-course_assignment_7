@@ -19,11 +19,12 @@ export class FormValidators {
     
   }
 
-  static password(controlA: string, controlB: string) {
-    console.log(controlA);
-    console.log(controlB)
-    // const { value: password } = controlA;
-    // const { value: confirmPassword } = controlB;
-    return controlA === controlB ? null : { passwordNotMatch: true };
+  static password(controlA: AbstractControl, controlB: AbstractControl) {
+    if (!controlA || !controlB) {
+      return null;
+    }
+     const { value: password } = controlA.value;
+     const { value: confirmPassword } = controlB.value;
+    return password === confirmPassword ? null : { passwordNotMatch: true };
   }
 }
